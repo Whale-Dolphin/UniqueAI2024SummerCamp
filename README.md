@@ -7,7 +7,7 @@
 ## 仓库使用规范
 该仓库的main分支作为任务发布分支，只会发布任务，UniqueAI分支是联创团队现役成员提交的任务的参考答案。选手需要建立一个以自己名字拼音为名的branch提交pr，例如联小创需要添加一个名为lianxiaochuang的分支并在其中提交自己的夏令营任务。
 
-除了提交代码以外，我们也鼓励提交学习过程，请用.md文件提交学习过程洪的笔记和一些其他东西。
+除了提交代码以外，我们也鼓励提交学习过程，请用.md文件提交学习过程中的笔记和一些其他东西。
 
 ## 编程规范
 在Python编程上，请尽量遵循[编程规范](https://zh-google-styleguide.readthedocs.io/en/latest/google-python-styleguide/python_style_rules/)。
