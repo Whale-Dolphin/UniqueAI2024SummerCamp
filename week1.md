@@ -7,18 +7,19 @@
 
 3.配置python环境，建议使用anaconda或者miniconda。
 
+请使以在markdown中提交截图的方式提交该任务。
+
 ## 数据处理
 数据处理是AI中基础且重要的一环，每个学习AI的同学应当首先学习数据处理的基本技巧。
 
 数据集：[泰坦尼克号](https://uniquestudio.feishu.cn/drive/folder/fldcnV0PzAB5J8ZaoMp8WXho8if?from=from_copylink)
 
 ### 基础任务
-1：缺失值处理
-包括但不限于，knn填补，众数，均值填补，补零
+1.缺失值处理，包括但不限于，knn填补，众数，均值填补，补零；
 
-2：数据标准化，归一化
+2.数据标准化，归一化;
 
-3：对于离散型变量的OneHotEncoder
+3.对于离散型变量的OneHotEncoder。
 
 ### 进阶任务
 使用torch中的Dataset和DataLoader类对上面处理过的数据集进行加载。
@@ -31,6 +32,8 @@
 实现一个逻辑回归代码，数据集是上面的泰坦尼克数据集，要求通过给出的数据拟合是否生还。
 
 ### 进阶任务
-1.尝试实现过拟合方法。
+1.尝试实现避免过拟合的方法；
 
-2.尝试使用多种优化方法，包括但不限于SGD、Adam等。
+2.尝试使用多种优化方法，包括但不限于SGD、Adam等；
+
+3.尝试实现dropout。
