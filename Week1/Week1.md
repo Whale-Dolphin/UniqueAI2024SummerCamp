@@ -75,7 +75,7 @@ fillna(value=None, method=None, axis=None, inplace=False, limit=None, downcast=N
 
 
 
-### knn填充
+### 3.5 knn填充
 
 基本思想： 先将数据标准化，然后对缺失值的数据点做k邻近填充，计算含缺失值的数据点与其他不含缺失值的数据点的距离矩阵，选出欧氏距离最近的k个数据点。用选中的k个近邻的数据点对应的字段均值来填充数据中的空缺值。
 
