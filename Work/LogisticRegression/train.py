@@ -15,14 +15,14 @@ from dataset import MyDataset
 from model import LogisticRegressionModel
 from utils import *
 
-def train(model, dataloader, cfg):
+def train(model, train_loader, val_loader, cfg):
     sw = SummaryWriter(cfg.train.log_dir)
 
     criterion = nn.BCELoss()
-    optimizer = optim.SGD(model.parameters(), lr=cfg.train.lr)
+    optimizer = optim.Adam(model.parameters(), lr=cfg.train.lr)
 
     for epoch in range(cfg.train.epochs):
-        for X_batch, y_batch in dataloader:
+        for X_batch, y_batch in train_loader:
             model.train()
             optimizer.zero_grad()
             outputs = model(X_batch)
@@ -34,6 +34,13 @@ def train(model, dataloader, cfg):
         
         if (epoch + 1) % 1 == 0:
             print(f'Epoch [{epoch+1}/{cfg.train.epochs}], Loss: {loss.item():.4f}')
+
+        model.eval()
+        with torch.no_grad():
+            for X, y in val_loader:
+                output = model(X).round()
+                accuracy=(output == y).sum().item() / len(y)
+                print(f'Validation Accuracy:   {accuracy:.4f}')
 
 
 @hydra.main(version_base="1.1", config_path="../conf", config_name="logistic_regression")
@@ -52,8 +59,8 @@ def main(cfg: DictConfig) -> None:
     data_array = dataframe.values
     data_tensor = torch.tensor(data_array, dtype=torch.float32)
 
-    train_tensor = data_tensor[:int(0.9 * len(data_tensor))]
-    val_tensor = data_tensor[int(0.9 * len(data_tensor)):]
+    train_tensor = data_tensor[:int(0.7 * len(data_tensor))]
+    val_tensor = data_tensor[int(0.7 * len(data_tensor)):]
 
     train_dataset = MyDataset(train_tensor)
     train_dataloader = DataLoader(train_dataset, batch_size=cfg.model.batch_size, shuffle=True)
@@ -63,15 +70,7 @@ def main(cfg: DictConfig) -> None:
     
     model = LogisticRegressionModel(data_tensor.shape[1] - 1)
     
-    train(model, train_dataloader, cfg)
-
-    model.eval()
-    with torch.no_grad():
-        acc = []
-        for X, y in val_dataloader:
-            output = model(X).round()
-            accuracy=(output == y).sum().item() / len(y)
-            print(f'Validation Accuracy: {accuracy:.4f}')
+    train(model, train_dataloader, val_dataloader, cfg)
 
 if __name__ == "__main__":
     main()
