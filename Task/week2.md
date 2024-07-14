@@ -32,7 +32,7 @@
 不使用torch、scikit-learn等库，只使用numpy和pandas完成以上任务。
 
 ### 大模型部署
-在本地或者服务器部署Qwen-chat 1.8B模型
+在本地或者服务器部署Qwen-chat 1.8B模型，并完成简单的对话。
 
 Tips:
 
