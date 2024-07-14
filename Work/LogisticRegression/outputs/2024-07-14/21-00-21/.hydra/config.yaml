@@ -1,8 +1,0 @@
-dataset:
-  impute:
-    _class: utils.DataFrameImputer
-    func: knn_impute
-  normalization:
-    _class: utils.DataFrameNormalizer
-    func: min_max_normalization
-  path: ../../Dataset/taitanic.csv
