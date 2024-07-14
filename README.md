@@ -10,7 +10,7 @@
 除了提交代码以外，我们也鼓励提交学习过程，请用.md文件提交学习过程洪的笔记和一些其他东西。
 
 ## 编程规范
-在Python编程上，请尽量遵循[编程规范](https://zh-google-styleguide.readthedocs.io/en/latest/google-python-styleguide/python_style_rules/)。
+在Python编程上，请尽量遵循[编程规范](https://zh-google-styleguide.readthedocs.io/en/latest/google-python-styleguide/contents.html)。
 
 请务必在必要的位置添加注释。
 
