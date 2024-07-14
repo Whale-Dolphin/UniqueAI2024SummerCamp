@@ -2,7 +2,7 @@
 
 - 第一步找出数据缺失项
 
-![image-20240714221509401](C:\Users\zy202\AppData\Roaming\Typora\typora-user-images\image-20240714221509401.png)
+![image-20240714221509401](https://github.com/captainwhite147/UniqueAI2024SummerCamp/blob/my_zhengyan/Task/images/image-20240714221509401.png)
 
 可以看到只有age，cabin和embark有缺失数据，对于age常见的处理方法为均值填补，embarked缺失数据不多，而且只有三种情况，采用众数填补。数据集只有891项而cabin有687个缺项，直接删除。
 
