@@ -1,8 +1,14 @@
-#task1实现心得
-##数据处理部分
-##one-hot编码部分
-##预测回归部分
-##代码如下
+# task1实现心得
+
+## 运算结果
+
+## 数据处理部分
+
+## one-hot编码部分
+
+## 预测回归部分
+
+## 代码如下
 ```
 import pandas as pd
 import numpy as np
