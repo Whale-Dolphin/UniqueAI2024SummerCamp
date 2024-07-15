@@ -106,10 +106,10 @@ def train_model(train_dataloader, epochs=55,lr=0.01):
             batch_size = X.shape[0]
             feature_size = X.shape[1]
             
-            if epoch == 0:
-                # 只有在第一个epoch的第一个batch才会进行初始化
+            if epoch == 0 and batch_idx == 0:
+                # 只有在第一个epoch的才会进行初始化
                 W = np.zeros((feature_size, 1))
-                b = np.zeros((batch_size, 1))
+                b = 0
                 
             y_hat = 1 / (1 + np.exp(-(np.dot(X, W) + b)))
             epsilon = 1e-8
@@ -126,7 +126,7 @@ def train_model(train_dataloader, epochs=55,lr=0.01):
         avg_loss = loss_sum / len(train_dataloader.dataset)
         train_losses.append(avg_loss)
         
-        if epoch >= 50:
+        if epoch > epochs-6:
             W_list.append(W)
             b_list.append(b)
     
@@ -168,7 +168,7 @@ train_dataloader = DataLoader(dataset=train_set, batch_size=batch_size, shuffle=
 test_dataloader = DataLoader(dataset=test_set, batch_size=batch_size, shuffle=True, num_workers=0)
 
 # 训练
-train_losses, W_list, b_list = train_model(train_dataloader, lr=0.01)
+train_losses, W_list, b_list = train_model(train_dataloader,epochs=100, lr=0.01)
 
 # 可视化
 plt.figure(figsize=(10, 6))
@@ -178,6 +178,9 @@ plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.grid(True)
 plt.show()
+
+for idx,(W,b) in enumerate(zip(W_list,b_list)):
+    print(f'{idx}: ',W,b)
 
 # 测试
 evaluate_model(test_dataloader, W_list, b_list)
