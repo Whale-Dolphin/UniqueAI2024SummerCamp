@@ -16,7 +16,7 @@ age的值缺失较多，并且均值有代表性，所以选择用均值填补�
 
 Embarked列有三个可能的值：C、Q和S，通过One-Hot编码，每个可能的值都将成为一个独立的特征;sex与Pclass同理
 
-![缺失值处理与one-hot编码](./屏幕截图%202024-07-14%20020947.png)
+![缺失值处理与one-hot编码]([./屏幕截图%202024-07-14%20020947.png](https://github.com/ElysiaTT/UniqueAI2024SummerCamp/blob/main/task1/chuliguocheng.png))
 
 ## 预测回归部分
 
