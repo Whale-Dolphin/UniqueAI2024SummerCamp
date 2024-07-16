@@ -95,39 +95,40 @@ def data_preprocess(data_raw):
     # print(x.columns)
     # print(x.values[0],y.values[0])
 
-def train_model(train_dataloader, epochs=55,lr=0.01):
+def train_model(train_dataloader, epochs=55,lr=0.0001,lambda_reg = 0):
     """模型训练函数"""
     train_losses = [] # 储存每个epoch的loss
     W_list, b_list = [], [] # 存储最后五个权重的列表
 
+    # 初始化 W 和 b
+    feature_size = next(iter(train_dataloader))[0].shape[1]
+    W = np.zeros((feature_size, 1))
+    b = 0
+    
     for epoch in range(epochs):
         loss_sum = 0
         for batch_idx, (X, y) in enumerate(train_dataloader):
             batch_size = X.shape[0]
-            feature_size = X.shape[1]
             
-            if epoch == 0 and batch_idx == 0:
-                # 只有在第一个epoch的才会进行初始化
-                W = np.zeros((feature_size, 1))
-                b = 0
-                
             y_hat = 1 / (1 + np.exp(-(np.dot(X, W) + b)))
             epsilon = 1e-8
-            loss = -y * np.log(y_hat + epsilon) - (1 - y) * np.log(1 - y_hat + epsilon)
-            loss_sum += loss.sum()
+            regulation = lambda_reg * ((W * W).sum()) # 正则项
+            loss = -y * np.log(y_hat + epsilon) - (1 - y) * np.log(1 - y_hat + epsilon) + regulation
+            regulation_loss = loss.sum() + regulation
+            loss_sum += regulation_loss
             
             y = y.numpy()
-            dW = np.dot(X.T, y_hat - y) / batch_size
+            dW = (np.dot(X.T, y_hat - y) ) / batch_size + 2 * lambda_reg * W
             db = np.sum(y_hat - y) / batch_size
-            
+            # print("dW = ",dW)
             W -= lr * dW
             b -= lr * db
             
-        avg_loss = loss_sum / len(train_dataloader.dataset)
+        avg_loss = loss_sum / (len(train_dataloader.dataset) * 2) 
         train_losses.append(avg_loss)
         
         if epoch > epochs-6:
-            W_list.append(W)
+            W_list.append(W.copy())
             b_list.append(b)
     
     return train_losses, W_list, b_list
@@ -143,8 +144,8 @@ def evaluate_model(test_dataloader, W_list, b_list, boundary=0.6):
             correct = (y_hat_class == y.numpy()).sum()
             correct_sum += correct
         
-        precision = correct_sum / len(test_dataloader.dataset)
-        print(f"Parameter {idx + 1}: precision = {precision}")
+        acc = (correct_sum / len(test_dataloader.dataset))*100
+        print(f"Parameter {idx + 1}: acc = {acc:.2f}%")
 
 
 # 主程序
@@ -168,7 +169,7 @@ train_dataloader = DataLoader(dataset=train_set, batch_size=batch_size, shuffle=
 test_dataloader = DataLoader(dataset=test_set, batch_size=batch_size, shuffle=True, num_workers=0)
 
 # 训练
-train_losses, W_list, b_list = train_model(train_dataloader,epochs=100, lr=0.01)
+train_losses, W_list, b_list = train_model(train_dataloader,epochs=200, lr=0.005,lambda_reg=0)
 
 # 可视化
 plt.figure(figsize=(10, 6))
@@ -184,14 +185,7 @@ for idx,(W,b) in enumerate(zip(W_list,b_list)):
 
 # 测试
 evaluate_model(test_dataloader, W_list, b_list)
-"""
------ output ----- 
-Parameter 1: precision = 0.7808988764044944
-Parameter 2: precision = 0.7921348314606742
-Parameter 3: precision = 0.8033707865168539
-Parameter 4: precision = 0.8146067415730337
-Parameter 5: precision = 0.8089887640449438
-"""
+
    
 
     
