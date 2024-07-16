@@ -1,7 +1,7 @@
 # task1实现心得
 
 ## 运算结果
-
+![运行结果](https://github.com/ElysiaTT/UniqueAI2024SummerCamp/blob/main/task1/yunxingjieguo.png)
 ## 数据处理部分
 
 对于数据的缺失，删除 'Name' 和 'Ticket' 列，避免对后面归一化的字符串造成影响
@@ -16,13 +16,13 @@ age的值缺失较多，并且均值有代表性，所以选择用均值填补�
 
 Embarked列有三个可能的值：C、Q和S，通过One-Hot编码，每个可能的值都将成为一个独立的特征;sex与Pclass同理
 
-![缺失值处理与one-hot编码]([./屏幕截图%202024-07-14%20020947.png](https://github.com/ElysiaTT/UniqueAI2024SummerCamp/blob/main/task1/chuliguocheng.png))
+![缺失值处理与one-hot编码](https://github.com/ElysiaTT/UniqueAI2024SummerCamp/blob/main/task1/chuliguocheng.png)
 
 ## 预测回归部分
 
 不使用深度学习库
-首先定义特征 X 和目标变量 y，再添加偏置项并初始化参数，sigmoid函数与定义损失函数。就可以实现梯度下降，后续可以调参调整精确度，最后计算准确率
 
+首先定义特征 X 和目标变量 y，再添加偏置项并初始化参数，sigmoid函数与定义损失函数。就可以实现梯度下降，最后计算准确率
 ## 代码如下
 ```
 import pandas as pd
@@ -111,4 +111,7 @@ predictions = predict(X, theta)
 accuracy = np.mean(predictions == y) * 100
 print(f'Training Accuracy: {accuracy:.1f}%')
 ```
-
+## 改进
+后续可以通过调参改进准确度
+## 心得
+本次学习了csv的读取与提交的python函数，并学习了logistics回归的手动实现方法，也明白了模型的构建需要不断调整与多方面改进。
