@@ -53,3 +53,60 @@ df.drop(columns='Cabin',inplace=True)
   df.drop(columns=['Embarked'], inplace=True)
   ```
 
+
+
+# 二、逻辑回归模型
+
+代码如下：
+
+``
+
+```python
+def sigmoid(z):
+    return 1 / (1 + np.exp(-z))
+
+def compute_cost(X, y, theta):
+    m = len(y)
+    h = sigmoid(X.dot(theta))
+    epsilon = 1e-5  # 防止log(0)的情况，导致计算出现错误
+    cost = (-y * np.log(h + epsilon) - (1 - y) * np.log(1 - h + epsilon)).mean()
+    return cost
+
+def gradient_descent(X, y, theta, alpha, iterations):
+    m = len(y)
+    cost_history = []
+
+    for i in range(iterations):
+        h = sigmoid(X.dot(theta))
+        gradient = X.T.dot(h - y) / m
+        theta -= alpha * gradient
+        cost = compute_cost(X, y, theta)
+        cost_history.append(cost)
+
+    return theta, cost_history
+
+# Step 4: 模型训练
+
+# 初始化参数
+theta = np.zeros(X.shape[1])
+alpha = 0.01
+iterations = 1000
+
+# 训练模型
+theta, cost_history = gradient_descent(X, y, theta, alpha, iterations)
+
+# 打印训练后的参数
+print(f"训练后的参数 theta：{theta}")
+
+# Step 5: 模型评估
+# 预测概率
+def predict(X, theta):
+    probabilities = sigmoid(X.dot(theta))
+    return [1 if x >= 0.5 else 0 for x in probabilities]
+
+y_pred = predict(X, theta)
+
+# 计算准确率
+accuracy = np.mean(y_pred == y)
+print(f"模型准确率：{accuracy }")
+```
