@@ -118,7 +118,7 @@ def train_model(train_dataloader, epochs=55,lr=0.0001,lambda_reg = 0):
             loss_sum += regulation_loss
             
             y = y.numpy()
-            dW = (np.dot(X.T, y_hat - y) ) / batch_size + 2 * lambda_reg * W
+            dW = ((np.dot(X.T, y_hat - y) )  + 2 * lambda_reg * W)/ batch_size
             db = np.sum(y_hat - y) / batch_size
             # print("dW = ",dW)
             W -= lr * dW
